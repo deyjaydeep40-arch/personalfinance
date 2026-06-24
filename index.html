@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Finance Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar hero-panel">
+      <div class="hero-copy">
+        <p class="eyebrow">Personal Finance Tracker</p>
+        <h1>Rupee dashboard</h1>
+        <p class="hero-text">Track income, expenses, budgets, and monthly savings in one simple offline app.</p>
+      </div>
+      <div class="month-picker">
+        <label for="reportMonth">Month</label>
+        <input type="month" id="reportMonth">
+      </div>
+    </header>
+
+    <section class="summary-grid" aria-label="Financial summary">
+      <article class="summary-card income">
+        <span>Income</span>
+        <strong id="totalIncome">₹0.00</strong>
+      </article>
+      <article class="summary-card expense">
+        <span>Expenses</span>
+        <strong id="totalExpense">₹0.00</strong>
+      </article>
+      <article class="summary-card balance">
+        <span>Balance</span>
+        <strong id="balance">₹0.00</strong>
+      </article>
+      <article class="summary-card budget">
+        <span>Budget left</span>
+        <strong id="budgetLeft">₹0.00</strong>
+      </article>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Add transaction</h2>
+          <button class="ghost-button" id="clearAllBtn" type="button">Clear all</button>
+        </div>
+        <form id="transactionForm" class="form-grid">
+          <label>
+            Type
+            <select id="type" required>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+          </label>
+          <label>
+            Category
+            <input type="text" id="category" list="categoryList" placeholder="Salary, rent, groceries" required>
+            <datalist id="categoryList">
+              <option value="Salary"></option>
+              <option value="Freelance"></option>
+              <option value="Groceries"></option>
+              <option value="Rent"></option>
+              <option value="Transport"></option>
+              <option value="Shopping"></option>
+              <option value="Bills"></option>
+              <option value="EMI"></option>
+              <option value="Savings"></option>
+            </datalist>
+          </label>
+          <label>
+            Amount
+            <input type="number" id="amount" min="0.01" step="0.01" placeholder="0.00" required>
+          </label>
+          <label>
+            Date
+            <input type="date" id="date" required>
+          </label>
+          <label class="full-span">
+            Note
+            <input type="text" id="note" maxlength="80" placeholder="Optional note">
+          </label>
+          <button class="primary-button full-span" type="submit">Add transaction</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Budget planner</h2>
+          <span id="budgetStatus" class="status-pill">On track</span>
+        </div>
+        <form id="budgetForm" class="budget-form">
+          <label>
+            Monthly expense budget
+            <input type="number" id="monthlyBudget" min="0" step="0.01" placeholder="Set budget">
+          </label>
+          <button class="primary-button" type="submit">Save budget</button>
+        </form>
+        <div class="budget-meter" aria-label="Budget usage">
+          <div id="budgetProgress"></div>
+        </div>
+        <p class="muted" id="budgetText">Set a monthly budget to track spending.</p>
+        <div class="insight-card">
+          <span>Monthly insight</span>
+          <strong id="insightText">Add transactions to see your money pattern.</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout chart-report">
+      <div class="panel chart-panel">
+        <div class="panel-heading">
+          <h2>Expense pie chart</h2>
+          <span class="muted" id="chartTotal">₹0.00 spent</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="expenseChart" width="280" height="280" aria-label="Expense category pie chart"></canvas>
+          <div id="chartLegend" class="legend"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Monthly report</h2>
+          <button class="ghost-button" id="exportBtn" type="button">Export CSV</button>
+        </div>
+        <div class="report-grid">
+          <div>
+            <span>Transactions</span>
+            <strong id="reportCount">0</strong>
+          </div>
+          <div>
+            <span>Top expense</span>
+            <strong id="topExpense">None</strong>
+          </div>
+          <div>
+            <span>Savings rate</span>
+            <strong id="savingsRate">0%</strong>
+          </div>
+          <div>
+            <span>Daily avg spend</span>
+            <strong id="dailyAverage">₹0.00</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="panel-heading">
+        <h2>Transactions</h2>
+        <div class="filters">
+          <select id="filterType" aria-label="Filter by type">
+            <option value="all">All</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <input type="search" id="searchInput" placeholder="Search category or note">
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Note</th>
+              <th>Amount</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="transactionTable"></tbody>
+        </table>
+      </div>
+      <p id="emptyState" class="empty-state">No transactions yet. Add your first income or expense above.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
